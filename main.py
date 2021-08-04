@@ -1,9 +1,10 @@
-
+from typing import Text
 from vosk import Model, KaldiRecognizer
 import os
 import pyaudio
 import pyttsx3
 import json
+import core
 
 # Síntese de voz
 engine = pyttsx3.init()
@@ -17,14 +18,16 @@ def speak(text):
     engine.runAndWait()
 
 
+# Reconhecimento de fala
 model = Model('model')
 rec = KaldiRecognizer(model, 16000)
 
 p = pyaudio.PyAudio()
 stream = p.open(format=pyaudio.paInt16, channels=1,
-                rate=16000, input=True, frames_per_buffer=8000)
+                rate=16000, input=True, frames_per_buffer=2048)
 stream.start_stream()
 
+# loop do reconhecimento de fala
 while True:
     data = stream.read(2048)
     if len(data) == 0:
@@ -37,4 +40,16 @@ while True:
             text = result['text']
 
             print(text)
-            speak(text)
+# Horas:
+            if text == 'que horas são' or text == 'me diga as horas':
+                speak(core.SystemInfo.get_time())
+
+# Dando bom dia, boa tarde ou boa noite!
+            if text == 'bom dia':
+                speak('Bom dia!')
+
+            if text == 'boa tarde':
+                speak('Boa tarde!')
+
+            if text == 'boa noite':
+                speak('Boa noite!')
