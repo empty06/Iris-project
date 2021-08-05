@@ -12,7 +12,7 @@ inputs, outputs = [], []
 
 for command in data['commands']:
     inputs.append(command['input'].lower())
-    outputs.append('{}\{}'.format(command['entity'], command['action']))
+    outputs.append('{}|{}'.format(command['entity'], command['action']))
 
 
 max_seq = max([len(bytes(x.encode('utf-8'))) for x in inputs])

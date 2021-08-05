@@ -29,6 +29,9 @@ def classify(text):
     return idx2label[idx]
 
 
+'''
+
 while True:
     text = input('Digite algo: ')
     print(classify(text))
+'''

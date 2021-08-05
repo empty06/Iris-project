@@ -5,6 +5,8 @@ import pyaudio
 import pyttsx3
 import json
 import core
+from nlu.classifier import classify
+import webbrowser as wb
 
 # Síntese de voz
 engine = pyttsx3.init()
@@ -16,6 +18,25 @@ engine.setProperty('voice', voices[-3].id)
 def speak(text):
     engine.say(text)
     engine.runAndWait()
+
+
+def evaluate(text):
+    # Reconhecer entidade do texto.
+    entity = classify(text)
+    if entity == 'time|getTime':
+        speak(core.SystemInfo.get_time())
+    elif entity == 'time|getDate':
+        speak(core.SystemInfo.get_date())
+
+    # Abrir programas
+    elif entity == 'open|google':
+        speak('Abrindo o Google')
+        wb.open_new_tab('http://www.google.com')
+    elif entity == 'open|youtube':
+        speak('Abrindo o Youtube')
+        wb.open_new_tab('"https://www.youtube.com/"')
+
+    print('Text: {}  Entity: {}'.format(text, entity))
 
 
 # Reconhecimento de fala
@@ -38,18 +59,4 @@ while True:
 
         if result is not None:
             text = result['text']
-
-            print(text)
-# Horas:
-            if text == 'que horas são' or text == 'me diga as horas':
-                speak(core.SystemInfo.get_time())
-
-# Dando bom dia, boa tarde ou boa noite!
-            if text == 'bom dia':
-                speak('Bom dia!')
-
-            if text == 'boa tarde':
-                speak('Boa tarde!')
-
-            if text == 'boa noite':
-                speak('Boa noite!')
+            evaluate(text)

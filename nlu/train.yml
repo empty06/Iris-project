@@ -34,17 +34,14 @@ commands:
   - commmand:
     input:  Abrir google
     entity: open
-    action:
-  - commmand:
-    input:  Abra o google
-    entity: open
-    action: 
+    action: google
   - commmand:
     input:  Abrir youtube
     entity: open
-    action: 
+    action: youtube
   - commmand:
-    input:  Abra o youtube
-    entity: open
+    input: 
+    entity: 
     action: 
+
   
